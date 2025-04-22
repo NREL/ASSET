@@ -61,7 +61,7 @@ Pranav Sharma, Shahil Shah, Bin Wang, Leonardo Rese –  “Automa
 **Clone the repository**
 
 ```bash
-git clone https://github.com/NREL/ASSET_Public.git
+git clone https://github.com/NREL/ASSET.git
 cd asset
 
 ```
