@@ -71,6 +71,8 @@ cd asset
 ## ✉️ Contact
 
 For questions, feedback, or other inquiries, please reach out to **shahil.shah@nrel.gov**.
+
+For our related work in the domain of Power systems stability, please visit:  [Grid Impedance Scan Tool](https://www.nrel.gov/grid/impedance-measurement)
          
 ---
 
