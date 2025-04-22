@@ -5,7 +5,7 @@
 # Sharma, P., Rese, L., Wang, B., Vyakaranam, B., & Shah, S. (2023). Grid Strength Analysis for Integrating 30 GW of Offshore Wind Generation by 2030 in the U.S. Eastern Interconnection: Preprint. Paper presented at 22nd Wind and Solar Integration Workshop, Copenhagen, Denmark. https://www.nrel.gov/docs/fy24osti/87392.pdf
 
 # ==============================================
-# Copyright (c) 2024 Alliance for Sustainable Energy, LLC and the University of Texas at San Antonio
+# Copyright (c) 2025 National Renewable Energy Laboratory
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
