@@ -9,7 +9,7 @@
 - ✅ **Automated grid strength computation** for a list of given buses or Points of Interconnection (POIs).
 - ⚠️ **Identify critical network contingencies** impacting each bus/POI.
 - 🔍 **Analyze the impact of pre-determined contingencies** on system strength at specified buses.
-- 🧮 SCRIF – Interaction Factor-based Short-Circuit Ratio computation that accounts for voltage sensitivity of neighboring POIs, providing a more conservative and realistic assessment of system strength.
+- 🧮 **SCRIF** – Interaction Factor-based Short-Circuit Ratio computation that accounts for voltage sensitivity of neighboring POIs, providing a more conservative and realistic assessment of system strength.
 - 📍 **Identify suitable locations for grid strength devices** _(coming soon)_.
 - 📈 **Optimize location and size of synchronous condensers** and other grid strengthening devices for improving system strength _(coming soon)_.
 
