@@ -5,7 +5,7 @@
 # Sharma, P., Rese, L., Wang, B., Vyakaranam, B., & Shah, S. (2023). Grid Strength Analysis for Integrating 30 GW of Offshore Wind Generation by 2030 in the U.S. Eastern Interconnection: Preprint. Paper presented at 22nd Wind and Solar Integration Workshop, Copenhagen, Denmark. https://www.nrel.gov/docs/fy24osti/87392.pdf
 
 # ==============================================
-# Copyright (c) 2025 National Renewable Energy Laboratory
+# Copyright (c) 2025 Alliance for Sustainable Energy, LLC and the University of Texas at San Antonio
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -90,9 +90,9 @@ working_dir = os.getcwd()
 # =============================================================================================
 GUIinput_powerflowfile = working_dir + "\input\savnw.sav"  # Power flow file
 GUIinput_poidata = working_dir + "\input\poidata.csv"  # POI (Point of Interconnection) data file
-GUIinput_outputfolder = working_dir + "\output"  # Folder for output files
+GUIinput_outputfolder = working_dir + "\output2"  # Folder for output files
 GUIinput_DiscAllOwu = 1  # Include fault current contribution from IBR units? (0: No, 1: Yes)
-GUIinput_SimMode = 0  # Simulation mode (0: Critical N-1/N-2, 1: Contingency scan)
+GUIinput_SimMode = 2  # Simulation mode (0: Critical N-1/N-2, 1: Contingency scan, 2: SCRIF Computation)
 GUIinput_K = 10  # Fault current analysis depth (branches K-level away from tested POI)
 GUIinput_contfolder = working_dir + "\ctg"  # Folder for contingency data
 
@@ -412,9 +412,81 @@ def main():
 
         res_df.to_csv(GUIinput_outputfolder + '\\results_CTG_SCAN_' + now.strftime("%Y-%m-%d_%H-%M-%S") + '.csv', index=False)
         print("Contingency Scan Completed.")
-    #else:
-     #   print("Invalid simulation mode selected.")
+    # =============================================================================================
+    # Simulation Mode: SCRIF Computation
+    elif GUIinput_SimMode == 2:    
+        print("SCRIF mode selected")
+        K = GUIinput_K
+        Z9999_flag = GUIinput_DiscAllOwu
+        SCMVA_POI = []
+        V_base = []
+        # Step 1: Get base case SCMVA_POI and V_base for all POIs
+        for i in range(len(poi_list)):
+            POIi = poi_list[i]
+            print("Computing base case for POI %d/%d" % (i + 1, len(poi_list)))
+            psspy.psseinit(busNlimit)
+            ierr = psspy.case(PFcase)
+            if ierr != 0:
+                raise Exception("SAV file cannot be opened.")
 
+            # Get base SCC
+            SCC_POI, SCC_kl, SCC_kl_array = assetlib.SC_k_lvl(psspy, POIi, OSWid[i], K, poi_list, Z9999_flag)
+            SCMVA_POI.append([int(SCC_POI[0]), SCC_POI[1]])
+
+            # Get base voltage
+            ierr, v = psspy.busdat(POIi, 'PU')
+            if ierr != 0:
+                raise Exception("Failed to get voltage for bus %d" % POIi)
+            V_base.append(abs(v))
+        # Step 2: Loop over POI buses to compute SCRIF
+        SCRIF_POI = []
+        V_base = np.array(V_base)
+        for i in range(len(poi_list)):
+            POIi = poi_list[i]
+            print("Computing SCRIF for POI %d/%d" % (i + 1, len(poi_list)))
+            psspy.psseinit(busNlimit)
+            ierr = psspy.case(PFcase)
+            if ierr != 0:
+                raise Exception("SAV file cannot be opened.")
+            # Add negative load
+            psspy.load_data_5(POIi, "TP", [_i, _i, _i, _i, _i, _i, _i], [_f, -100.0, _f, _f, _f, _f, _f, _f])
+            psspy.fnsl([0, 0, 0, 0, 0, 1, 0, 0])  # Power flow
+            # Get voltage at all POI buses
+            V_del = []
+            for POIj in poi_list:
+                ierr, v = psspy.busdat(POIj, 'PU')
+                if ierr != 0:
+                    raise Exception("Failed to get voltage for bus %d" % POIj)
+                V_del.append(abs(v))
+            V_del = np.array(V_del)
+            # Compute Impact Factor
+            delta_i = abs(V_del[i] - V_base[i])
+            Imp_Factor = []
+            for j in range(len(poi_list)):
+                if i == j:
+                    Imp_Factor.append(1.0)
+                else:
+                    delta_j = abs(V_del[j] - V_base[j])
+                    IF = 0.0
+                    if delta_i > 1e-7:
+                        IF = delta_j / delta_i
+                        if IF < 1e-7:
+                            IF = 0.0
+                    Imp_Factor.append(IF)
+            # Purge load and rerun PF
+            psspy.purgload(POIi, "TP")
+            psspy.fnsl([0, 0, 0, 0, 0, 1, 0, 0])
+            # Compute SCRIF
+            denom = 0.0
+            for j in range(len(poi_list)):
+                denom += Imp_Factor[j] * poi_pmax[j]
+            scrif = SCMVA_POI[i][1] / denom if denom > 0 else 0
+            SCRIF_POI.append([SCMVA_POI[i][0], scrif])
+        # Save results
+        pd.DataFrame(SCMVA_POI, columns=['Bus number of POI', 'SCMVA(N-0)']).to_csv(
+            os.path.join(out_dir, "result_SCMVA_SCRIF.csv"), index=False)
+        pd.DataFrame(SCRIF_POI, columns=['Bus number of POI', 'SCRIF']).to_csv(
+            os.path.join(out_dir, "result_SCRIF.csv"), index=False) 
     print("Simulation complete.")
 # Main function execution
 if __name__ == "__main__":
