@@ -1,4 +1,4 @@
-# ⚡ Automated System-wide Strength Estimation Tool (ASSET)
+# ⚡ Automated System-wide Strength Evaluation Tool (ASSET)
 
 **ASSET** is a free and open-source tool built with Python and [PSS®E](https://new.siemens.com/global/en/products/energy/services/transmission-distribution-smart-grid/pss-software/pss-e.html), designed to automatically assess and analyze grid strength across large-scale power systems. It supports multiple system operating conditions and contingencies, and outputs results in a tabular format for easy interpretation.
 
