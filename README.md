@@ -2,6 +2,8 @@
 
 **ASSET** is a free and open-source tool built with Python and [PSS®E](https://new.siemens.com/global/en/products/energy/services/transmission-distribution-smart-grid/pss-software/pss-e.html), designed to automatically assess and analyze grid strength across large-scale power systems. It supports multiple system operating conditions and contingencies, and outputs results in a tabular format for easy interpretation.
 
+National Renewable Energy Laboratory - Software Record Number - SWR-24-03
+
 ---
 
 ## 🚀 Features
