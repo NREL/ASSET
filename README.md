@@ -9,12 +9,10 @@ National Renewable Energy Laboratory - Software Record Number - SWR-24-03
 ## 🚀 Features
 
 - ✅ **Automated grid strength computation** for a list of given buses or Points of Interconnection (POIs).
-- ⚠️ **Identify critical network contingencies** impacting each bus/POI.
+- ⚠️ **Identify critical network contingencies** impacting grid strength at selected buses/POI.
 - 🔍 **Analyze the impact of pre-determined contingencies** on system strength at specified buses.
 - 🧮 **SCRIF** – Interaction Factor-based Short-Circuit Ratio computation that accounts for voltage sensitivity of neighboring POIs, providing a more conservative and realistic assessment of system strength.
-- 📍 **Identify suitable locations for grid strength devices** _(coming soon)_.
-- 📈 **Optimize location and size of synchronous condensers** and other grid strengthening devices for improving system strength _(coming soon)_.
-
+- 📍 **Optimal sizing and location of grid strengthening devices** _(coming soon)_.
 
 ---
 
@@ -33,7 +31,6 @@ ASSET has been used in the analysis of real-world power systems, including:
 2. [Puerto Rico grid resiliencey studies](https://www.nrel.gov/docs/fy24osti/88615.pdf) 🇵🇷
 3. [Grid strength studies for U.S. Western Interconnect (WECC) system](https://www.osti.gov/servlets/purl/2500279/) 🌐
 4. [Subnational strategies to improve grid quality and reduce energy costs in Argentina](https://www.nrel.gov/docs/fy25osti/91767.pdf) 🇦🇷
-5. Grid oscillation studies in India _(ongoing work)_ 🇮🇳
 
 ---
 
@@ -41,13 +38,10 @@ ASSET has been used in the analysis of real-world power systems, including:
 
 
 If you use ASSET in your research or publications, please cite the following papers:
-
-```bash
-P. Sharma, L. Rese, B. Wang, B. Vyakaranam and S. Shah, "Grid strength analysis for integrating 30 GW of offshore wind generation by 2030 in the U.S. Eastern Interconnection," 22nd Wind and Solar Integration Workshop (WIW 2023), Copenhagen, Denmark, 2023, pp. 36-43, doi: 10.1049/icp.2023.2716.
-```
 ```bash
 P. Sharma and S. Shah, "Application of the Extra Element Theorem for Grid Strength Analysis in IBR-Dominated Systems," 2025 IEEE Power & Energy Society General Meeting (PESGM), Austin, Texas, USA, 2025
 ```
+
 ---
 
 ## 📝 License
