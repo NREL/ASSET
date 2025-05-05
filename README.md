@@ -46,7 +46,7 @@ P. Sharma and S. Shah, "Application of the Extra Element Theorem for Grid Streng
 
 ## 📝 License
 
-ASSET is released under the **BSD License**.  Copyright © National Renewable Energy Laboratory.
+ASSET is released under the **BSD License**.  Copyright © Alliance for Sustainable Energy LLC.
 
 **NREL Software Record of Invention**  
 Pranav Sharma, Shahil Shah, Bin Wang, Leonardo Rese –  “Automated System‑wide Strength Evaluation Tool (ASSET)”.
